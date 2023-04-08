@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel='stylesheet' href="{{ url_for('static', filename='fonts/fontawesome5-overrides.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/Article-Clean.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/Login-Form-Clean.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/sidebar.css')}}">
+
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title"
+                    href="#"><strong>Sidebar</strong></a><a class="text-white float-right" id="sidebarToggleHolder"
+                    href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="index.html"><i
+                    class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Upload Dataset</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="classification.html"><i
+                    class="far fa-life-ring mx-3"></i><span class="text-nowrap mx-2">Spam Classification</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="result.html"><i
+                    class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Results</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="predict"><i
+                    class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Predict</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="logout"><i
+                    class="fas fa-sign-out-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span
+                    class="text-nowrap mx-2">Log out</span></a></li>
+    </ul>
+    <div class="container article-clean">
+        <div class="row">
+            <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                <div class="text-center intro">
+                    <h1 class="text-center">Customer Review Analysis</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Upload Dataset</h4>
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <div class="col">
+                                <div class="row my-3">
+                                    <input type="file" name="file" class="btn btn-primary mr-4" />
+                                    <input class="btn-primary" type="submit" onclick="spinner()" value="Upload" />
+                                </div>
+                            </div>
+                        </form>
+                        <p>
+                            {{message}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loader">
+        <div class="loading">
+        </div>
+      </div>
+      
+      
+      <script type="text/javascript">
+          function spinner() {
+              document.getElementsByClassName("loader")[0].style.display = "block";
+          }
+      </script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url_for('static', filename='js/forPython.js')}}"></script>
+    <script src="{{url_for('static', filename='js/piechart.js')}}"></script>
+    <script src="{{url_for('static', filename='js/sidebar.js')}}"></script>
+</body>
+
+</html>

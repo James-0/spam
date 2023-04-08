@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body class="maincon">
+
+    <header>
+        <div class="jumbotron text-center">
+            <h1>Customer Review Analysis</h1>
+            <p class="text-muted font-weight-bold">Machine Learning Web Application </p>
+        </div>
+    </header>
+
+    <div class="container p-3 my-3">
+        <div class="row">
+            <p class="font-weight-bold">Your Comment is Classified as :</p>
+            <br><br>
+            {% if prediction == 1 %}
+            <p class=" text-center font-weight-bold">Recommended Text</p>
+            {% else %}
+            <p class=" text-center font-weight-bold">Not a Recommended Text</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('predict') }}"><button type="submit" class="btn btn-primary font-weight-bold text-white">Back</button></a>
+        <a href="{{ url_for('index') }}"><button type="submit" class="btn btn-primary font-weight-bold text-white">Home</button></a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
