@@ -55,7 +55,7 @@
                             <div class="col">
                                 <div class="row my-3">
                                     <input type="file" name="file" class="btn btn-primary mr-4" />
-                                    <input class="btn-primary" type="submit" onclick="spinner()" value="Upload" />
+                                    <input class="btn btn-primary" type="submit" value="Upload" />
                                 </div>
                             </div>
                         </form>
@@ -67,21 +67,9 @@
             </div>
         </div>
     </div>
-    <div class="loader">
-        <div class="loading">
-        </div>
-      </div>
-      
-      
-      <script type="text/javascript">
-          function spinner() {
-              document.getElementsByClassName("loader")[0].style.display = "block";
-          }
-      </script>   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script src="{{url_for('static', filename='js/forPython.js')}}"></script>
-    <script src="{{url_for('static', filename='js/piechart.js')}}"></script>
     <script src="{{url_for('static', filename='js/sidebar.js')}}"></script>
 </body>
 

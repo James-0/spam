@@ -71,12 +71,6 @@ def ffunction(data):
 
     objects = ('Multi-NB','SVM','KNN', 'RF', 'AdaBoost')
 
-    def train_classifier(clf, X_train, y_train):    
-        clf.fit(X_train, y_train)
-
-    # function to predict features 
-    def predict_labels(clf, features):
-        return(clf.predict(features))
 
     # Initialize the five models
     A = MultinomialNB(alpha=1.0,fit_prior=True)
@@ -96,7 +90,7 @@ def ffunction(data):
     for a in range(0,5):
         # print(objects[a])
         train_classifier(clf[3], X_train, y_train)
-        y_pred = predict_labels(clf[3],X_test)
+        y_pred = predict_labels/(clf[3],X_test)
 
         fo1_score[a] = f1_score(y_test, y_pred)
         acc_score[a]=accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
@@ -201,3 +195,13 @@ def testing(data):
             # save the model to disk 
             # pickle.dump(model, open(filenam, 'wb'))
             joblib.dump(model, filenam)
+
+
+
+    
+    def train_classifier(clf, X_train, y_train):    
+        clf.fit(X_train, y_train)
+
+    # function to predict features 
+    def predict_labels(clf, features):
+        return(clf.predict(features))

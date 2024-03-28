@@ -15,37 +15,7 @@
   <link rel="stylesheet" href="{{url_for('static', filename='css/Login-Form-Clean.css')}}">
   <link rel="stylesheet" href="{{ url_for('static',filename='css/sidebar.css')}}">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        {% for key, value in data.items() %}
-    {% if value is string %}
-    ['{{ key }}', '{{ value }}'],
-      {% else %}
-    ['{{ key }}', {{ value }}],
-      {% endif %}
-    {% endfor %}
-          ]);
 
-    var options = {
-      title: 'Chart For Ratio of Recommended and Non-Recommended reviews',
-      //pieHole: 0.5
-      pieStartAngle: 100
-      /*slices: {  
-        2: {offset: 0.2},
-        3: {offset: 0.3}
-      }*/
-      /*slices: {
-        1: { color: 'transparent' }
-      }*/
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-    chart.draw(data, options);
-        }
-  </script>
 
 </head>
 
@@ -55,18 +25,18 @@
       <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title"
           href="#"><strong>Sidebar</strong></a><a class="text-white float-right" id="sidebarToggleHolder" href="#"><i
             class="fas fa-bars" id="sidebarToggle"></i></a></div>
-          </li>
-          <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="index.html"><i
-                      class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Upload Dataset</span></a></li>
-          <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="open_test"><i
-                      class="far fa-life-ring mx-3"></i><span class="text-nowrap mx-2">Spam Classification</span></a></li>
-          <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="result"><i
-                      class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Results</span></a></li>
-          <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="predict"><i
-                      class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Predict</span></a></li>
-          <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="logout"><i
-                      class="fas fa-sign-out-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span
-                      class="text-nowrap mx-2">Log out</span></a></li>
+    </li>
+    <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="index.html"><i
+          class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Upload Dataset</span></a></li>
+    <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="open_test"><i
+          class="far fa-life-ring mx-3"></i><span class="text-nowrap mx-2">Spam Classification</span></a></li>
+    <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="result"><i
+          class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Results</span></a></li>
+    <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="predict"><i
+          class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Predict</span></a></li>
+    <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="logout"><i
+          class="fas fa-sign-out-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span
+          class="text-nowrap mx-2">Log out</span></a></li>
   </ul>
   <div class="container article-clean">
     <div class="row">
@@ -82,17 +52,21 @@
       <div class="card-body ">
         <h4 class="card-subtitle mb-2 center">Accuracy is: {{accuracy}}</h4>
         <h4 class="card-subtitle mb-2 center">F1 Score is: {{f1}}</h4>
-        <div id="piechart" style="width: 900px; height: 500px;"></div>
         <div><img id="picture" src="data:image/jpeg;base64,{{ img_data }}"></div>
       </div>
     </div>
   </div>
 
-
+  
+  <script>
+    // You can call this function after successful upload
+    function showUploadSuccess() {
+      $('.alert').fadeIn().delay(2000).fadeOut();  // Show for 2 seconds and then fade out
+    }
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
   <script src="{{url_for('static', filename='js/forPython.js')}}"></script>
-  <script src="{{url_for('static', filename='js/piechart.js')}}"></script>
   <script src="{{url_for('static', filename='js/sidebar.js')}}"></script>
 </body>
 
