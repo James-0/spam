@@ -5,146 +5,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algorithm Comparison</title>
+    <style>
+        .log-container {
+            border: 1px solid #ced4da;
+            padding: 5px;
+            max-height: 200px;
+            max-width: 400px;
+            overflow-y: auto;
+        }
+
+        .log-message {
+            margin-bottom: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        #train_all {
+            position: relative;
+        }
+
+        .paused {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 4px solid transparent;
+            border-top-color: #ff0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .paused {
+            animation-play-state: paused;
+        }
+
+        .chart-container {
+            width: 75%;
+            height: 600px
+        }
+
+        .tab-pane,
+        .tab-content,
+        .inner-content {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-    <script src="static/js/evaluation.js"></script>
+    <script src="static/js/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            //     $("#compareSelector").change(function () {
-            //         var selectedOption = $(this).val();
-
-            //         if (selectedOption === "individual") {
-            //             // Show individual buttons, hide single button
-            //             $(".individual-button").show();
-            //             $(".single-button").hide();
-            //         } else if (selectedOption === "single") {
-            //             // Show single button, hide individual buttons
-            // $(".single-button").show();
-            $(".individual-button").hide();
-            $("#view-result").hide();
-            // $(".modaldiv").load("modalDiv.html");
-            //         }
-            //     });
         });
     </script>
 </head>
 
 <body>
-
-    <!-- <label for="compareSelector">Choose Comparison Type:</label>
-    <select id="compareSelector">
-        <option value="individual">Individual</option>
-        <option value="single">Single</option>
-    </select> -->
-
-
-
-    <!-- Single button -->
-
     <div class="container mt-5">
         <h2 class="text-center ">Algorithm Comparison</h2>
         <div class="row mt-4 single-button justify-content-center">
-            <!-- Button to trigger training for all Algorithms -->
             <button class="btn btn-primary" id="train_all">Train and Compare All Algorithms</button>
         </div>
-        <div class="row mt-4 individual-button">
-            <div class="col text-center">
-                <!-- Button to trigger training for Algorithm 1 -->
-                <button type="button" class="btn btn-primary train-btn" data-algorithm="Algorithm 1">Train Algorithm
-                    1</button>
-            </div>
-            <div class="col text-center">
-                <!-- Button to trigger training for Algorithm 2 -->
-                <button type="button" class="btn btn-primary train-btn" data-algorithm="Algorithm 2">Train Algorithm
-                    2</button>
-            </div>
-            <div class="col text-center">
-                <!-- Button to trigger training for Algorithm 3 -->
-                <button type="button" class="btn btn-primary train-btn" data-algorithm="Algorithm 3">Train Algorithm
-                    3</button>
-            </div>
-            <div class="col text-center">
-                <!-- Button to trigger training for Algorithm 4 -->
-                <button type="button" class="btn btn-primary train-btn" data-algorithm="Algorithm 4">Train Algorithm
-                    4</button>
-            </div>
-            <div class="col text-center">
-                <!-- Button to trigger training for Algorithm 5 -->
-                <button type="button" class="btn btn-primary train-btn" data-algorithm="Algorithm 5">Train Algorithm
-                    5</button>
-            </div>
-        </div>
-        <div id="progressContainer" class="mt-3" style="display: none;">
-            <div class="progress">
-                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-        </div>
-        <div class="modal" id="myModal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-              
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">Chart</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body">
-                  <!-- Canvas for the chart -->
-                  <canvas id="chartCanvas" width="400" height="400"></canvas>
-                </div>
-                
-              </div>
-            </div>
-        </div>
-
-        <!-- Results table section (hidden by default) -->
         <div class="row mt-5 results-section" style="display: none;">
             <div class="col">
-                <h3 class="text-center">Results</h3>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Algorithm</th>
-                            <th>Accuracy</th>
-                            <th>F1 Score</th>
-                            <th>Recall</th>
-                            <th>Precision</th>
-                            <!-- Add more metrics as needed -->
-                        </tr>
-                    </thead>
-                    <tbody id="results-table-body">
-                        <!-- Results will be dynamically added here -->
-                    </tbody>
-                </table>
-                <!-- <button type="button" data-toggle="modal" id="view-result" data-toggle="modal" data-target="#myModal" class="btn btn-primary py-2 px-4">Compare Results</button> -->
-                <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
-
-                <!-- <div id="ex1" class="modal">
-                    <div id="evaluation-metrics">
-                        <canvas id="metrics-chart" width="400" height="400"></canvas>
+                <div class="container">
+                    <h3 class="text-center">Results</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Accuracy</th>
+                                <th>F1 Score</th>
+                                <th>Recall</th>
+                                <th>Precision</th>
+                                <th>Model Build Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table-body">
+                        </tbody>
+                    </table>
+                    <div class="container-sm" width="200" height="250">
+                        <div class="row">
+                            <div class="col">
+                                <div class="log-container" id="log-container"></div>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#" rel="modal:close">Close</a>
-                </div> -->
-                <!-- <div id="ex2" class="modal">
-                    <div id="confusion-matrix"> -->
-                        <!-- Confusion matrix visualization will be displayed here -->
-                        <!-- <canvas id="confusion-matrix-chart" width="400" height="400"></canvas>
-                        <a href="#" rel="modal:close">Close</a> -->
+                    <button type="button" data-toggle="modal" id="view-result" data-toggle="modal"
+                        data-target="#myModal" class="btn btn-primary py-2 px-4 mt-5">Compare Results</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col">
+                <div class="container chart-container">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="accuracy-tab" data-toggle="tab" href="#accuracy" role="tab"
+                                aria-controls="accuracy" aria-selected="true">Accuracy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="f1score-tab" data-toggle="tab" href="#f1score" role="tab"
+                                aria-controls="f1score" aria-selected="false">F1 Score</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="recall-tab" data-toggle="tab" href="#recall" role="tab"
+                                aria-controls="recall" aria-selected="false">Recall</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="precision-tab" data-toggle="tab" href="#precision" role="tab"
+                                aria-controls="precision" aria-selected="false">Precision</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="elapsed_time-tab" data-toggle="tab" href="#elapsed_time" role="tab"
+                                aria-controls="elapsed_time" aria-selected="false">Model Build Time</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="cf_matrix-tab" data-toggle="tab" href="#cf_matrix" role="tab"
+                                aria-controls="cf_matrix" aria-selected="false">Confusion Matrix</a>
+                        </li>
+                        <!-- Add more tabs for other keys as needed -->
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="accuracy" role="tabpanel"
+                            aria-labelledby="accuracy-tab">
+                            <div class="inner-content" id="accuracyChart"></div>
+                        </div>
+                        <div class="tab-pane fade" id="f1score" role="tabpanel" aria-labelledby="f1score-tab">
+                            <div class="inner-content" id="f1scoreChart"></div>
+                        </div>
+                        <div class="tab-pane fade" id="recall" role="tabpanel" aria-labelledby="recall-tab">
+                            <div class="inner-content" id="recallChart"></div>
+                        </div>
+                        <div class="tab-pane fade" id="precision" role="tabpanel" aria-labelledby="precision-tab">
+                            <div class="inner-content" id="precisionChart"></div>
+                        </div>
+                        <div class="tab-pane fade" id="elapsed_time" role="tabpanel" aria-labelledby="elapsed_time-tab">
+                            <div class="inner-content" id="elapsed_timeChart"></div>
+                        </div>
+                        <div class="tab-pane fade" id="cf_matrix" role="tabpanel" aria-labelledby="cf_matrix-tab">
+                            <div class="inner-content" id="cf_matrixChart"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </body>
 
 </html>
