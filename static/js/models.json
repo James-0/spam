@@ -1,0 +1,43 @@
+[
+    {
+      "name": "Multi-NB",
+      "accuracy": 0.85,
+      "f1score": 0.91,
+      "recall": 0.95,
+      "precision": 0.88,
+      "elapsed_time": "0.06s"
+    },
+    {
+      "name": "SVM",
+      "accuracy": 0.93,
+      "f1score": 0.96,
+      "recall": 0.96,
+      "precision": 0.95,
+      "elapsed_time": "1.56s"
+    },
+    {
+      "name": "KNN",
+      "accuracy": 0.91,
+      "f1score": 0.95,
+      "recall": 0.96,
+      "precision": 0.93,
+      "elapsed_time": "0.02s"
+    },
+    {
+      "name": "RF",
+      "accuracy": 0.92,
+      "f1score": 0.95,
+      "recall": 0.95,
+      "precision": 0.95,
+      "elapsed_time": "2m 22s"
+    },
+    {
+      "name": "AdaBoost",
+      "accuracy": 0.93,
+      "f1score": 0.96,
+      "recall": 0.94,
+      "precision": 0.98,
+      "elapsed_time": "11m 32s"
+    }
+  ]
+  

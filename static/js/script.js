@@ -23,7 +23,6 @@ $(document).ready(function () {
         socket.emit('generate_data');
     });
 
-
     socket.on('stream_data', function (data) {
         if (!isStreamEnded) {
             pushJsonIntoArrayMap(data);

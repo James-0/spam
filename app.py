@@ -6,7 +6,7 @@ import flask
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 from werkzeug.utils import secure_filename
-from static.python.server import process_algorithm, show_data, process_file_upload
+from static.python.server import process_algorithm, show_data, process_file_upload, numerical_transformer_standard, numerical_transformer_minmax
 
 app = Flask(__name__)
 app.secret_key = b'3d6f45a5fc12445dbac2f59c3b6c7cb1'
@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 accuracy = [0,0,0,0,0]
 f1o_score = [0,0,0,0,0]
 
-per_page = 10
+per_page = 50
    
 result = []
 ALLOWED_EXTENSIONS = {'csv', 'pdf'}
@@ -41,13 +41,13 @@ def upload_file():
     if request.method == 'POST':
         file_path = process_file_upload(app, request)
         return redirect(url_for('.html_table', file_path=file_path))
+    
     return render_template("index.html", message="Please Try again")
 
 @app.route('/open_test')
 def html_table():
     global data
     data = show_data(file_path)
-
     page = request.args.get('page', type=int, default=1)
     start = (page - 1) * per_page
     end = start + per_page
@@ -56,6 +56,10 @@ def html_table():
 
     total_rows = len(data)
     total_pages = (total_rows - 1) // per_page + 1
+
+    # # Preprocess data with standard scaler and minmax scaler
+    # X_processed_standard, y, preprocessor_standard = preprocess_data(data, numerical_transformer_standard)
+    # X_processed_minmax, _, preprocessor_minmax = preprocess_data(data, numerical_transformer_minmax)
 
     return render_template('classification.html', data=data_slice, columns=columns, page=page, total_pages=total_pages)
 
@@ -79,15 +83,6 @@ def logout():
 @app.route('/predict')
 def open_predict():
     return render_template('predict.html')
-
-# @app.route('/predict', methods=['POST'])
-# def predict():
-#     if request.method == 'POST':
-#         comment = request.form['comment']
-#         response = [comment]
-#         vect = vectorizer.transform(response).toarray()
-#         my_prediction = clf.predict(vect)
-#     return render_template('predict_result.html', prediction=my_prediction)
 
 @app.route('/test')
 def test():
@@ -138,6 +133,15 @@ def handle_stream_end():
 #     response = asyncio.run(process_algorithm(algorithms[index], index))
 #     print(response)
 #     return jsonify(response)
+
+# @app.route('/predict', methods=['POST'])
+# def predict():
+#     if request.method == 'POST':
+#         comment = request.form['comment']
+#         response = [comment]
+#         vect = vectorizer.transform(response).toarray()
+#         my_prediction = clf.predict(vect)
+#     return render_template('predict_result.html', prediction=my_prediction)
 
 
 if __name__ == '__main__':

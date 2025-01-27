@@ -7,5 +7,4 @@ function importData() {
             console.log(files);
         };
   input.click();
-  
 }
